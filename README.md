@@ -1,13 +1,13 @@
 # custom-knowledge
 
-Custom knowledge image to be able to set DB config from environmental variables.
+Custom knowledge image to be able to set DB config from environment variables.
 
 ## Run
 ```sh
 $ docker run -d --name knowledge -e DB_USER=postgres -e DB_PASSWORD=mypassword mas9612/custom-knowledge
 ```
 
-## Environmental variables
+## Environment variables
 * `DB_URL` : Database URL
     - default: `postgresql://postgres:5432/knowledge`
 * `DB_USER` : Database user to connect to database
