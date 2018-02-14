@@ -1,0 +1,50 @@
+version: "3.4"
+
+services:
+  knowledge:
+    image: mas9612/custom-knowledge
+    ports:
+      - "80:8080"
+    environment:
+      - DB_URL=postgresql://postgres:5432/knowledge
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASS}
+      - DB_SCHEMA=public
+    volumes:
+      - type: volume
+        source: knowledge-data
+        target: /root/.knowledge
+    networks:
+      - knowledge-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: always
+        delay: 10s
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=knowledge
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      - knowledge-net
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: always
+        delay: 10s
+
+volumes:
+  knowledge-data:
+  postgres-data:
+
+networks:
+  knowledge-net:
